@@ -126,7 +126,7 @@ function calculate() {
     .replace(/(\d)(\()/g, "$1*(")    // number before (
     .replace(/(\))(\d)/g, ")*$2")    // ) before number
     .replace(/(\))(\()/g, ")*(")  // ) before (
-    .replace(/(\))(\()/g, "( * )");   
+  
 
   const result = new Function("return " + cleanedExpression)();
   document.getElementById("display").value = result;
