@@ -104,4 +104,34 @@ function deleteBtn() {
     document.getElementById("display").value.slice(0, -1);
 }
 
+function  clearDisplay() {
+   document.getElementById("display").value = "";
+}
+
+function calculate() {
+  if (expression === "") return;
+
+  const lastChar = expression[expression.length - 1];
+  if (["+", "-", "*", "/", "."].includes(lastChar)) {
+    document.getElementById("display").value = "Error";
+    expression = "";
+    return;
+  }
+
+  // Replace all percent signs with '/100'
+  let cleanedExpression = expression.replace(/%/g, "/100");
+
+  // Fix for brackets multiplication like 2(3+4) => 2*(3+4)
+  cleanedExpression = cleanedExpression
+    .replace(/(\d)(\()/g, "$1*(")    // number before (
+    .replace(/(\))(\d)/g, ")*$2")    // ) before number
+    .replace(/(\))(\()/g, ")*(")  // ) before (
+    .replace(/(\))(\()/g, "( * )");   
+
+  const result = new Function("return " + cleanedExpression)();
+  document.getElementById("display").value = result;
+  expression = result.toString();
+}
+
+
 
